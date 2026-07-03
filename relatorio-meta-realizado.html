@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vila Aty — Meta × Realizado 2026</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --verde:        #5C6E42;
+  --verde-escuro: #3E4A2C;
+  --laranja:      #F79D1C;
+  --azul:         #3E7C96;
+  --teal:         #215757;
+  --offwhite:     #DFDBD0;
+  --card:         #FBFAF5;
+  --cinza:        #8A8A82;
+  --vermelho:     #C0473B;
+  --muted:        #7C7A6E;
+  --linha:        rgba(62,74,44,0.10);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--offwhite);
+  color: var(--verde-escuro);
+  font-family: 'Axiforma', 'Montserrat', system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* ── HEADER ── */
+.header {
+  background: var(--verde);
+  padding: 20px 16px 16px;
+}
+.header-inner { max-width: 1200px; margin: 0 auto; }
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.header-logo {
+  width: 36px; height: 36px;
+  background: rgba(251,250,245,0.15);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; flex-shrink: 0;
+}
+.header h1 {
+  font-size: clamp(18px, 4vw, 26px);
+  font-weight: 800;
+  color: var(--card);
+  letter-spacing: -0.3px;
+}
+.header h2 {
+  font-size: clamp(11px, 2vw, 14px);
+  font-weight: 500;
+  color: rgba(251,250,245,0.72);
+  margin-top: 2px;
+}
+.header-meta {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+.header-badge {
+  background: rgba(251,250,245,0.14);
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 11px;
+  color: rgba(251,250,245,0.82);
+  font-weight: 600;
+}
+
+/* ── TABS ── */
+.tabs-bar {
+  background: var(--verde-escuro);
+  display: flex;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.tab-btn {
+  flex: none;
+  padding: 12px 22px;
+  font-size: 13px;
+  font-weight: 700;
+  color: rgba(251,250,245,0.55);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  border-bottom: 3px solid transparent;
+  transition: color 0.15s, border-color 0.15s;
+  font-family: inherit;
+  letter-spacing: 0.2px;
+}
+.tab-btn.active {
+  color: var(--card);
+  border-bottom-color: var(--laranja);
+}
+.tab-btn:hover { color: var(--card); }
+
+/* ── LAYOUT ── */
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+.container { max-width: 1200px; margin: 0 auto; padding: 24px 14px 40px; }
+
+.section { margin-bottom: 36px; }
+.section-title {
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--verde);
+  margin-bottom: 14px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--linha);
+}
+
+/* ── KPI GRID ── */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+@media (min-width: 480px) {
+  .kpi-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (min-width: 900px) {
+  .kpi-grid { grid-template-columns: 1fr 1fr 1fr 1fr 1.4fr; }
+}
+
+.kpi-card {
+  background: var(--card);
+  border-radius: 12px;
+  padding: 16px 18px;
+  border: 1px solid var(--linha);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.kpi-card.destaque {
+  background: var(--verde-escuro);
+  border-color: var(--verde-escuro);
+  grid-column: 1 / -1;
+}
+@media (min-width: 900px) {
+  .kpi-card.destaque { grid-column: auto; }
+}
+.kpi-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+  color: var(--muted);
+}
+.kpi-card.destaque .kpi-label { color: rgba(223,219,208,0.65); }
+.kpi-value {
+  font-size: clamp(17px, 3vw, 22px);
+  font-weight: 800;
+  color: var(--verde-escuro);
+  line-height: 1.1;
+}
+.kpi-card.destaque .kpi-value {
+  color: var(--card);
+  font-size: clamp(19px, 4vw, 26px);
+}
+.kpi-value.neg  { color: var(--vermelho); }
+.kpi-value.warn { color: var(--laranja); }
+.kpi-value.pos  { color: var(--verde); }
+.kpi-sub  { font-size: 11px; color: var(--muted); }
+.kpi-card.destaque .kpi-sub  { color: rgba(223,219,208,0.55); }
+.kpi-sub2 { font-size: 12px; font-weight: 600; color: rgba(251,250,245,0.72); margin-top: 2px; }
+
+/* ── TABLES ── */
+.table-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 10px;
+  border: 1px solid var(--linha);
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--card);
+  font-size: 13px;
+  min-width: 520px;
+}
+th {
+  background: var(--verde-escuro);
+  color: var(--offwhite);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  padding: 10px 13px;
+  text-align: right;
+  white-space: nowrap;
+}
+th:first-child { text-align: left; border-radius: 0; }
+td {
+  padding: 9px 13px;
+  text-align: right;
+  border-bottom: 1px solid var(--linha);
+  vertical-align: middle;
+  white-space: nowrap;
+}
+td:first-child { text-align: left; font-weight: 600; }
+tr:last-child td { border-bottom: none; }
+tbody tr:hover td { background: rgba(92,110,66,0.04); }
+tfoot td {
+  background: rgba(62,74,44,0.06);
+  font-weight: 700;
+  border-top: 2px solid var(--linha);
+  border-bottom: none;
+}
+.val-pos  { color: var(--verde);    font-weight: 700; }
+.val-neg  { color: var(--vermelho); font-weight: 700; }
+.val-warn { color: var(--laranja);  font-weight: 700; }
+.val-azul { color: var(--azul);     font-weight: 600; }
+.val-muted { color: var(--muted); }
+.col-icon { text-align: center !important; font-size: 15px; padding: 9px 8px; }
+
+.badge {
+  display: inline-block;
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  padding: 2px 7px;
+  border-radius: 20px;
+  vertical-align: middle;
+  margin-left: 5px;
+}
+.badge-aberto  { background: rgba(247,157,28,0.16); color: #A06B0A; }
+.badge-fechado { background: rgba(92,110,66,0.13);  color: var(--verde); }
+
+/* ── CENÁRIOS ── */
+.cenarios {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+@media (min-width: 600px) {
+  .cenarios { grid-template-columns: 1fr 1fr; }
+}
+.cenario-card {
+  background: var(--card);
+  border-radius: 12px;
+  padding: 20px 22px;
+  border: 2px solid var(--linha);
+}
+.cenario-card.otimista { border-color: var(--verde); }
+.cenario-tipo {
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+.cenario-valor {
+  font-size: clamp(22px, 4vw, 30px);
+  font-weight: 800;
+  color: var(--verde-escuro);
+  line-height: 1;
+  margin-bottom: 10px;
+}
+.cenario-detalhe {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.55;
+}
+.cenario-detalhe strong { font-weight: 700; color: var(--laranja); }
+.cenario-detalhe .ok   { color: var(--verde); font-weight: 700; }
+
+/* ── CHART ── */
+.chart-wrap {
+  margin-top: 18px;
+}
+.chart-legend {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 500;
+}
+.legend-dot {
+  width: 12px; height: 12px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+.chart-container {
+  background: var(--card);
+  border-radius: 12px;
+  border: 1px solid var(--linha);
+  padding: 16px;
+  overflow-x: auto;
+}
+svg.bar-chart {
+  display: block;
+  width: 100%;
+  min-width: 380px;
+}
+
+/* ── INSIGHT BOX ── */
+.insight-box {
+  background: var(--card);
+  border-left: 4px solid var(--laranja);
+  border-radius: 0 12px 12px 0;
+  padding: 18px 22px;
+}
+.insight-item {
+  font-size: 13px;
+  color: var(--verde-escuro);
+  margin-bottom: 12px;
+  line-height: 1.7;
+  padding-left: 18px;
+  position: relative;
+}
+.insight-item:last-child { margin-bottom: 0; }
+.insight-item::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 8px;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--laranja);
+}
+.insight-item strong { color: var(--verde-escuro); font-weight: 700; }
+.hi-red    { color: var(--vermelho); font-weight: 700; }
+.hi-orange { color: var(--laranja);  font-weight: 700; }
+.hi-green  { color: var(--verde);    font-weight: 700; }
+.hi-azul   { color: var(--azul);     font-weight: 700; }
+
+/* ── COMPARATIVO ── */
+.row-aberto td { opacity: 0.65; }
+.legenda-aviso {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 10px;
+  padding: 9px 13px;
+  background: rgba(247,157,28,0.08);
+  border-radius: 6px;
+  border-left: 3px solid var(--laranja);
+  line-height: 1.55;
+}
+
+.nota-total {
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 6px;
+  font-style: italic;
+}
+</style>
+</head>
+<body>
+
+<!-- =============================================================
+  CAMADA DE DADOS — edite APENAS este bloco toda semana
+  ============================================================= -->
+<script>
+const CONFIG = {
+  pousada: "Vila Aty",
+  mesReferencia: "Junho/2026",
+  dataAtualizacao: "03/07/2026",
+  metaAnual: 6604713
+};
+
+// status: "fechado" = realizado confirmado | "aberto" = carteira em venda
+const MESES = [
+  { mes: "Jan", meta: 313399,  real2026: 210267.00,  occ2026: 32, real2025: 239364.40,  occ2025: 41, status: "fechado" },
+  { mes: "Fev", meta: 162739,  real2026: 143538.46,  occ2026: 32, real2025: 85441.80,   occ2025: 40, status: "fechado" },
+  { mes: "Mar", meta: 157065,  real2026: 53997.41,   occ2026: 29, real2025: 149884.70,  occ2025: 55, status: "fechado" },
+  { mes: "Abr", meta: 205973,  real2026: 111670.80,  occ2026: 23, real2025: 181254.08,  occ2025: 36, status: "fechado" },
+  { mes: "Mai", meta: 432317,  real2026: 460523.51,  occ2026: 68, real2025: 385439.53,  occ2025: 62, status: "fechado" },
+  { mes: "Jun", meta: 1014226, real2026: 909811.38,  occ2026: 72, real2025: 893801.07,  occ2025: 86, status: "fechado" },
+  { mes: "Jul", meta: 1443614, real2026: 1495269.00, occ2026: 91, real2025: 1156758.78, occ2025: 95, status: "aberto" },
+  { mes: "Ago", meta: 1443614, real2026: 1189327.14, occ2026: 84, real2025: 994589.62,  occ2025: 92, status: "aberto" },
+  { mes: "Set", meta: 560128,  real2026: 388983.10,  occ2026: 51, real2025: 562228.79,  occ2025: 90, status: "aberto" },
+  { mes: "Out", meta: 302540,  real2026: 104960.54,  occ2026: 15, real2025: 325321.72,  occ2025: 52, status: "aberto" },
+  { mes: "Nov", meta: 259157,  real2026: 21772.92,   occ2026: 4,  real2025: 95767.24,   occ2025: 48, status: "aberto" },
+  { mes: "Dez", meta: 309941,  real2026: 28213.26,   occ2026: 5,  real2025: 203783.00,  occ2025: 24, status: "aberto" }
+];
+</script>
+
+<!-- =============================================================
+  ESTRUTURA HTML
+  ============================================================= -->
+<header class="header">
+  <div class="header-inner">
+    <div class="header-brand">
+      <div class="header-logo">🌿</div>
+      <div>
+        <h1 id="h-pousada"></h1>
+        <h2>Acompanhamento Meta × Realizado</h2>
+      </div>
+    </div>
+    <div class="header-meta">
+      <span class="header-badge" id="h-mes"></span>
+      <span class="header-badge" id="h-data"></span>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs-bar">
+  <button class="tab-btn active" onclick="switchTab('tab1',this)">Acompanhamento 2026</button>
+  <button class="tab-btn" onclick="switchTab('tab2',this)">Comparativo 2025 × 2026</button>
+</nav>
+
+<!-- ═══════════════ ABA 1 ═══════════════ -->
+<div id="tab1" class="tab-content active">
+  <div class="container">
+
+    <div class="section">
+      <div class="section-title">Visão Geral</div>
+      <div class="kpi-grid" id="kpi-grid"></div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Meta × Realizado — 1º Semestre (meses fechados)</div>
+      <div class="table-wrap">
+        <table id="tbl-semestre"></table>
+      </div>
+      <div class="chart-wrap">
+        <div class="chart-legend" id="chart-legend"></div>
+        <div class="chart-container">
+          <svg id="bar-chart" class="bar-chart" viewBox="0 0 700 260" preserveAspectRatio="xMidYMid meet"></svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Cenários de Encerramento 2026</div>
+      <div class="cenarios" id="cenarios"></div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Forecast Necessário — Meses em Aberto (Jul–Dez)</div>
+      <div class="table-wrap">
+        <table id="tbl-forecast"></table>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Leitura</div>
+      <div class="insight-box" id="insight-box"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════ ABA 2 ═══════════════ -->
+<div id="tab2" class="tab-content">
+  <div class="container">
+
+    <div class="section">
+      <div class="section-title">Faturamento 2025 × 2026</div>
+      <div class="table-wrap">
+        <table id="tbl-fat"></table>
+      </div>
+      <div class="legenda-aviso">
+        ⚠ Os meses marcados como <strong>aberto</strong> (Jul–Dez/2026) representam carteira em venda, não realizado final. Comparar diretamente com o 2025 fechado pode sugerir queda onde há apenas captura ainda em andamento. Analise com cautela.
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Ocupação 2025 × 2026 (%)</div>
+      <div class="table-wrap">
+        <table id="tbl-occ"></table>
+      </div>
+      <div class="legenda-aviso">
+        ⚠ Ocupação de 2026 nos meses "aberto" é parcial — reservas confirmadas até hoje. O número final será maior à medida que novas vendas entrarem.
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- =============================================================
+  MOTOR DE RENDERIZAÇÃO
+  ============================================================= -->
+<script>
+// ── Helpers ─────────────────────────────────────────────────────
+function brl(v) {
+  return 'R ' + Math.abs(v).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+function brlSigned(v) {
+  return (v < 0 ? '− ' : '+ ') + brl(v);
+}
+function pct(v, dec) {
+  return v.toFixed(dec ?? 1) + '%';
+}
+function fmtK(v) {
+  if (Math.abs(v) >= 1e6) return 'R$' + (v / 1e6).toFixed(1) + 'M';
+  if (Math.abs(v) >= 1e3) return 'R$' + (v / 1e3).toFixed(0) + 'k';
+  return 'R$' + v.toFixed(0);
+}
+function icon(v) { return v >= 0 ? '🟢' : '🔴'; }
+
+// ── Cálculos derivados ──────────────────────────────────────────
+const fechados = MESES.filter(m => m.status === 'fechado');
+const abertos  = MESES.filter(m => m.status === 'aberto');
+
+const metaAcum   = fechados.reduce((s, m) => s + m.meta,     0);
+const realAcum   = fechados.reduce((s, m) => s + m.real2026, 0);
+const gap        = realAcum - metaAcum;
+const faltaAnual = CONFIG.metaAnual - realAcum;
+const projOtim   = MESES.reduce((s, m) => s + m.real2026, 0);
+const projCons   = realAcum;
+const nAbertos   = abertos.length;
+const rateio     = Math.abs(gap) / nAbertos;
+
+// ── Tabs ────────────────────────────────────────────────────────
+function switchTab(id, btn) {
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── Header ──────────────────────────────────────────────────────
+document.getElementById('h-pousada').textContent = CONFIG.pousada;
+document.getElementById('h-mes').textContent  = 'Referência: ' + CONFIG.mesReferencia;
+document.getElementById('h-data').textContent = 'Atualizado em ' + CONFIG.dataAtualizacao;
+
+// ── KPIs ────────────────────────────────────────────────────────
+function renderKPIs() {
+  const faltaOtim = CONFIG.metaAnual - projOtim;
+  const cards = [
+    {
+      label: 'Meta anual',
+      value: brl(CONFIG.metaAnual),
+      sub: '12 meses · objetivo total',
+      cls: '',
+    },
+    {
+      label: 'Realizado acumulado',
+      value: brl(realAcum),
+      sub: fechados.length + ' meses fechados',
+      cls: '',
+    },
+    {
+      label: 'Gap acumulado',
+      value: brlSigned(gap),
+      sub: pct(gap / metaAcum * 100) + ' da meta acumulada',
+      cls: gap < 0 ? 'neg' : 'pos',
+    },
+    {
+      label: 'Falta pra meta anual',
+      value: brl(faltaAnual),
+      sub: pct(faltaAnual / CONFIG.metaAnual * 100) + ' da meta total',
+      cls: 'warn',
+    },
+    {
+      label: 'Projeção otimista',
+      value: brl(projOtim),
+      sub: 'fechados + carteira aberta',
+      cls: faltaOtim <= 0 ? 'pos' : '',
+      destaque: true,
+      sub2: 'Conservadora: ' + brl(projCons),
+    },
+  ];
+
+  document.getElementById('kpi-grid').innerHTML = cards.map(c => `
+    <div class="kpi-card ${c.destaque ? 'destaque' : ''}">
+      <div class="kpi-label">${c.label}</div>
+      <div class="kpi-value ${c.cls}">${c.value}</div>
+      <div class="kpi-sub">${c.sub}</div>
+      ${c.sub2 ? `<div class="kpi-sub2">${c.sub2}</div>` : ''}
+    </div>
+  `).join('');
+}
+
+// ── Tabela semestre ──────────────────────────────────────────────
+function renderSemestre() {
+  let tMeta = 0, tReal = 0;
+  const rows = fechados.map(m => {
+    const g = m.real2026 - m.meta;
+    tMeta += m.meta; tReal += m.real2026;
+    return `<tr>
+      <td>${m.mes}</td>
+      <td>${brl(m.meta)}</td>
+      <td>${brl(m.real2026)}</td>
+      <td class="${g >= 0 ? 'val-pos' : 'val-neg'}">${brlSigned(g)}</td>
+      <td class="val-azul">${m.occ2026}%</td>
+      <td class="col-icon">${icon(g)}</td>
+    </tr>`;
+  }).join('');
+
+  const tg = tReal - tMeta;
+  document.getElementById('tbl-semestre').innerHTML = `
+    <thead><tr>
+      <th>Mês</th><th>Meta</th><th>Realizado</th><th>Gap</th><th>Occ%</th><th></th>
+    </tr></thead>
+    <tbody>${rows}</tbody>
+    <tfoot><tr>
+      <td>Total</td>
+      <td>${brl(tMeta)}</td>
+      <td>${brl(tReal)}</td>
+      <td class="${tg >= 0 ? 'val-pos' : 'val-neg'}">${brlSigned(tg)}</td>
+      <td class="val-muted">—</td>
+      <td></td>
+    </tr></tfoot>`;
+}
+
+// ── Gráfico de barras (SVG) ──────────────────────────────────────
+function renderChart() {
+  const svg    = document.getElementById('bar-chart');
+  const legend = document.getElementById('chart-legend');
+  const W = 700, H = 260;
+  const padL = 68, padR = 18, padT = 20, padB = 52;
+  const plotW = W - padL - padR;
+  const plotH = H - padT - padB;
+
+  const data   = fechados;
+  const maxVal = Math.max(...data.flatMap(m => [m.meta, m.real2026]));
+  const yMax   = maxVal * 1.12;
+  const n      = data.length;
+  const groupW = plotW / n;
+  const barW   = Math.min(groupW * 0.34, 26);
+  const gap    = barW * 0.28;
+
+  function sy(v) { return padT + plotH - (v / yMax * plotH); }
+
+  let out = '';
+
+  // grid lines + y labels
+  for (let i = 0; i <= 5; i++) {
+    const v = yMax * i / 5;
+    const y = sy(v);
+    out += `<line x1="${padL}" y1="${y}" x2="${W - padR}" y2="${y}" stroke="rgba(62,74,44,0.07)" stroke-width="1"/>`;
+    out += `<text x="${padL - 6}" y="${y + 4}" text-anchor="end" font-size="9" fill="#7C7A6E" font-family="Montserrat,system-ui">${fmtK(v)}</text>`;
+  }
+
+  // bars
+  data.forEach((m, i) => {
+    const cx = padL + groupW * i + groupW / 2;
+    const xM = cx - barW - gap / 2;
+    const xR = cx + gap / 2;
+    const yM = sy(m.meta);
+    const yR = sy(m.real2026);
+    const hM = padT + plotH - yM;
+    const hR = padT + plotH - yR;
+    const over = m.real2026 >= m.meta;
+
+    // shadow
+    out += `<rect x="${xM+1}" y="${yM+1}" width="${barW}" height="${hM}" fill="rgba(0,0,0,0.04)" rx="3"/>`;
+    out += `<rect x="${xR+1}" y="${yR+1}" width="${barW}" height="${hR}" fill="rgba(0,0,0,0.04)" rx="3"/>`;
+
+    out += `<rect x="${xM}" y="${yM}" width="${barW}" height="${hM}" fill="#5C6E42" opacity="0.88" rx="3"/>`;
+    out += `<rect x="${xR}" y="${yR}" width="${barW}" height="${hR}" fill="${over ? '#3E7C96' : '#C0473B'}" opacity="0.88" rx="3"/>`;
+
+    // x label
+    out += `<text x="${cx}" y="${H - padB + 18}" text-anchor="middle" font-size="11" fill="#3E4A2C" font-weight="700" font-family="Montserrat,system-ui">${m.mes}</text>`;
+  });
+
+  // axes
+  out += `<line x1="${padL}" y1="${padT}" x2="${padL}" y2="${padT + plotH}" stroke="rgba(62,74,44,0.18)" stroke-width="1"/>`;
+  out += `<line x1="${padL}" y1="${padT + plotH}" x2="${W - padR}" y2="${padT + plotH}" stroke="rgba(62,74,44,0.18)" stroke-width="1"/>`;
+
+  svg.innerHTML = out;
+
+  legend.innerHTML = `
+    <div class="legend-item"><span class="legend-dot" style="background:#5C6E42"></span>Meta</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#3E7C96"></span>Realizado ≥ meta</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#C0473B"></span>Realizado &lt; meta</div>
+  `;
+}
+
+// ── Cenários ────────────────────────────────────────────────────
+function renderCenarios() {
+  const faltaO = CONFIG.metaAnual - projOtim;
+  const faltaC = CONFIG.metaAnual - projCons;
+
+  document.getElementById('cenarios').innerHTML = `
+    <div class="cenario-card">
+      <div class="cenario-tipo">Cenário Conservador</div>
+      <div class="cenario-valor">${brl(projCons)}</div>
+      <div class="cenario-detalhe">
+        Apenas meses fechados — resultado confirmado.<br>
+        Ainda falta <strong>${brl(faltaC)}</strong> para atingir a meta anual.
+      </div>
+    </div>
+    <div class="cenario-card otimista">
+      <div class="cenario-tipo">Cenário Otimista</div>
+      <div class="cenario-valor">${brl(projOtim)}</div>
+      <div class="cenario-detalhe">
+        Inclui toda a carteira (fechado + aberto em venda).<br>
+        ${faltaO > 0
+          ? `Ainda falta <strong>${brl(faltaO)}</strong> para a meta.`
+          : `<span class="ok">Ultrapassa a meta em ${brl(-faltaO)}!</span>`
+        }
+      </div>
+    </div>
+  `;
+}
+
+// ── Forecast ────────────────────────────────────────────────────
+function renderForecast() {
+  let tMeta = 0, tFc = 0, tReal = 0, tBuraco = 0;
+
+  const rows = abertos.map(m => {
+    const fc     = m.meta + rateio;
+    const buraco = m.real2026 - fc;
+    tMeta   += m.meta;
+    tFc     += fc;
+    tReal   += m.real2026;
+    tBuraco += buraco;
+
+    const bCls  = buraco < 0 ? 'val-neg' : 'val-pos';
+    const alert = buraco < -250000 ? ' style="background:rgba(192,71,59,0.035)"' : '';
+    return `<tr${alert}>
+      <td>${m.mes}</td>
+      <td>${brl(m.meta)}</td>
+      <td class="val-warn">+ ${brl(rateio)}</td>
+      <td style="font-weight:700">${brl(fc)}</td>
+      <td>${brl(m.real2026)}</td>
+      <td class="${bCls}">${brlSigned(buraco)}</td>
+      <td class="val-azul">${m.occ2026}%</td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('tbl-forecast').innerHTML = `
+    <thead><tr>
+      <th>Mês</th>
+      <th>Meta original</th>
+      <th>+ Rateio do gap</th>
+      <th>= Forecast necessário</th>
+      <th>Carteira atual</th>
+      <th>Buraco</th>
+      <th>Occ%</th>
+    </tr></thead>
+    <tbody>${rows}</tbody>
+    <tfoot><tr>
+      <td>Total abertos</td>
+      <td>${brl(tMeta)}</td>
+      <td class="val-warn">+ ${brl(rateio * nAbertos)}</td>
+      <td style="font-weight:700">${brl(tFc)}</td>
+      <td>${brl(tReal)}</td>
+      <td class="${tBuraco < 0 ? 'val-neg' : 'val-pos'}">${brlSigned(tBuraco)}</td>
+      <td class="val-muted">—</td>
+    </tr></tfoot>`;
+}
+
+// ── Insight ──────────────────────────────────────────────────────
+function renderInsight() {
+  const agoM  = abertos.find(m => m.mes === 'Ago');
+  const julM  = abertos.find(m => m.mes === 'Jul');
+  const agoFc = agoM  ? agoM.meta  + rateio : 0;
+  const julFc = julM  ? julM.meta  + rateio : 0;
+  const agoBuraco = agoM  ? agoM.real2026  - agoFc : 0;
+  const julBuraco = julM  ? julM.real2026  - julFc : 0;
+
+  document.getElementById('insight-box').innerHTML = `
+    <div class="insight-item">
+      <strong>Agosto é o alerta principal.</strong> Alta temporada com
+      <span class="hi-azul">${agoM ? agoM.occ2026 : 0}% de ocupação</span>
+      e carteira <span class="hi-red">${brl(Math.abs(agoBuraco))} abaixo do forecast ajustado</span>.
+      A janela de captação se fecha rápido — precisa de ação imediata em canais de venda, upgrades e pacotes.
+    </div>
+    <div class="insight-item">
+      <strong>Julho está praticamente no alvo.</strong>
+      Carteira de ${brl(julM ? julM.real2026 : 0)} frente a um forecast necessário de ${brl(julFc)}.
+      Gap residual de <span class="hi-green">${brl(Math.abs(julBuraco))}</span> —
+      <span class="hi-green">situação controlada</span>, foco em confirmação das reservas.
+    </div>
+    <div class="insight-item">
+      <strong>Out/Nov/Dez com ocupação muito baixa não é queda de demanda — é inventário ainda não vendido.</strong>
+      Em julho a janela de venda desses meses está completamente aberta.
+      O buraco é recuperável via captação ativa: pacotes de fora de temporada, parcerias corporativas e grupos.
+    </div>
+    <div class="insight-item">
+      <strong>Setembro merece atenção secundária:</strong> 51% de ocupação e gap significativo para o forecast ajustado.
+      Temporada de transição — oportunidade de capturar viagens corporativas, grupos menores e clientes de natureza/ecoturismo.
+    </div>
+  `;
+}
+
+// ── Comparativo Faturamento ──────────────────────────────────────
+function renderFat() {
+  let t25 = 0, t26 = 0;
+  const rows = MESES.map(m => {
+    const ab   = m.status === 'aberto';
+    const d    = m.real2025 > 0 ? (m.real2026 - m.real2025) / m.real2025 * 100 : 0;
+    t25 += m.real2025; t26 += m.real2026;
+    const dTxt = ab
+      ? '<span style="color:var(--laranja);font-size:10px;font-style:italic">em aberto</span>'
+      : `<span class="${d >= 0 ? 'val-pos' : 'val-neg'}">${d >= 0 ? '▲' : '▼'} ${Math.abs(d).toFixed(1)}%</span>`;
+    return `<tr class="${ab ? 'row-aberto' : ''}">
+      <td>${m.mes}${ab ? ' <span class="badge badge-aberto">aberto</span>' : ''}</td>
+      <td>${brl(m.real2025)}</td>
+      <td>${brl(m.real2026)}</td>
+      <td>${dTxt}</td>
+      <td class="col-icon">${ab ? '🟡' : icon(d)}</td>
+    </tr>`;
+  }).join('');
+
+  const td = t25 > 0 ? (t26 - t25) / t25 * 100 : 0;
+  document.getElementById('tbl-fat').innerHTML = `
+    <thead><tr><th>Mês</th><th>2025</th><th>2026</th><th>Δ%</th><th></th></tr></thead>
+    <tbody>${rows}</tbody>
+    <tfoot><tr>
+      <td>Total / Ano *</td>
+      <td>${brl(t25)}</td>
+      <td>${brl(t26)}</td>
+      <td class="${td >= 0 ? 'val-pos' : 'val-neg'}">${td >= 0 ? '▲' : '▼'} ${Math.abs(td).toFixed(1)}%</td>
+      <td></td>
+    </tr></tfoot>`;
+}
+
+// ── Comparativo Ocupação ────────────────────────────────────────
+function renderOcc() {
+  let s25 = 0, s26 = 0, n = 0;
+  const rows = MESES.map(m => {
+    const ab  = m.status === 'aberto';
+    const d   = m.occ2026 - m.occ2025;
+    s25 += m.occ2025; s26 += m.occ2026; n++;
+    const dTxt = ab
+      ? '<span style="color:var(--laranja);font-size:10px;font-style:italic">em aberto</span>'
+      : `<span class="${d >= 0 ? 'val-pos' : 'val-neg'}">${d >= 0 ? '▲' : '▼'} ${Math.abs(d)} p.p.</span>`;
+    return `<tr class="${ab ? 'row-aberto' : ''}">
+      <td>${m.mes}${ab ? ' <span class="badge badge-aberto">aberto</span>' : ''}</td>
+      <td>${m.occ2025}%</td>
+      <td>${m.occ2026}%</td>
+      <td>${dTxt}</td>
+      <td class="col-icon">${ab ? '🟡' : icon(d)}</td>
+    </tr>`;
+  }).join('');
+
+  const m25 = (s25 / n).toFixed(1);
+  const m26 = (s26 / n).toFixed(1);
+  const md  = (s26 - s25) / n;
+  document.getElementById('tbl-occ').innerHTML = `
+    <thead><tr><th>Mês</th><th>Occ 2025</th><th>Occ 2026</th><th>Δ (p.p.)</th><th></th></tr></thead>
+    <tbody>${rows}</tbody>
+    <tfoot><tr>
+      <td>Média anual *</td>
+      <td>${m25}%</td>
+      <td>${m26}%</td>
+      <td class="${md >= 0 ? 'val-pos' : 'val-neg'}">${md >= 0 ? '▲' : '▼'} ${Math.abs(md).toFixed(1)} p.p.</td>
+      <td></td>
+    </tr></tfoot>`;
+}
+
+// ── Boot ─────────────────────────────────────────────────────────
+renderKPIs();
+renderSemestre();
+renderChart();
+renderCenarios();
+renderForecast();
+renderInsight();
+renderFat();
+renderOcc();
+</script>
+</body>
+</html>
