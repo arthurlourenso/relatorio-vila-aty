@@ -505,7 +505,7 @@ const MESES = [
     </div>
 
     <div class="section">
-      <div class="section-title">Forecast Necessário — Meses em Aberto (Jul–Dez)</div>
+      <div class="section-title">Forecast Necessário — Meses em Aberto (Ago–Dez)</div>
       <div class="table-wrap">
         <table id="tbl-forecast"></table>
       </div>
@@ -843,11 +843,10 @@ function renderObs() {
 // ── Insight ──────────────────────────────────────────────────────
 function renderInsight() {
   const agoM  = abertos.find(m => m.mes === 'Ago');
-  const julM  = abertos.find(m => m.mes === 'Jul');
+  const julM  = fechados.find(m => m.mes === 'Jul');
   const agoFc = agoM  ? agoM.meta  + rateio : 0;
-  const julFc = julM  ? julM.meta  + rateio : 0;
   const agoBuraco = agoM  ? agoM.real2026  - agoFc : 0;
-  const julBuraco = julM  ? julM.real2026  - julFc : 0;
+  const julGap = julM ? julM.real2026 - julM.meta : 0;
 
   document.getElementById('insight-box').innerHTML = `
     <div class="insight-item">
@@ -857,10 +856,10 @@ function renderInsight() {
       A janela de captação se fecha rápido — precisa de ação imediata em canais de venda, upgrades e pacotes.
     </div>
     <div class="insight-item">
-      <strong>Julho está praticamente no alvo.</strong>
-      Carteira de ${brl(julM ? julM.real2026 : 0)} frente a um forecast necessário de ${brl(julFc)}.
-      Gap residual de <span class="hi-green">${brl(Math.abs(julBuraco))}</span> —
-      <span class="hi-green">situação controlada</span>, foco em confirmação das reservas.
+      <strong>Julho fechou praticamente no alvo.</strong>
+      Realizado de ${brl(julM ? julM.real2026 : 0)} contra meta de ${brl(julM ? julM.meta : 0)} —
+      gap residual de apenas <span class="hi-green">${brl(Math.abs(julGap))}</span>
+      (${pct(Math.abs(julGap) / (julM ? julM.meta : 1) * 100)}), dentro da margem de execução do mês.
     </div>
     <div class="insight-item">
       <strong>Out/Nov/Dez com ocupação muito baixa não é queda de demanda — é inventário ainda não vendido.</strong>
