@@ -317,35 +317,36 @@ svg.bar-chart {
   min-width: 380px;
 }
 
-/* ── INSIGHT BOX ── */
-.insight-box {
+/* ── LEITURA ── */
+.leitura-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+@media (min-width: 700px) {
+  .leitura-grid { grid-template-columns: 1fr 1fr; }
+}
+.leitura-card {
   background: var(--card);
-  border-left: 4px solid var(--laranja);
   border-radius: 0 12px 12px 0;
-  padding: 18px 22px;
+  padding: 16px 20px;
+  border: 1px solid var(--linha);
+  border-left: 4px solid var(--cinza);
 }
-.insight-item {
+.leitura-card.tom-alerta   { border-left-color: var(--vermelho); }
+.leitura-card.tom-positivo { border-left-color: var(--verde); }
+.leitura-card.tom-neutro   { border-left-color: var(--teal); }
+.leitura-titulo {
   font-size: 13px;
+  font-weight: 800;
   color: var(--verde-escuro);
-  margin-bottom: 12px;
+  margin-bottom: 6px;
+}
+.leitura-texto {
+  font-size: 13px;
+  color: var(--muted);
   line-height: 1.7;
-  padding-left: 18px;
-  position: relative;
 }
-.insight-item:last-child { margin-bottom: 0; }
-.insight-item::before {
-  content: '';
-  position: absolute;
-  left: 0; top: 8px;
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: var(--laranja);
-}
-.insight-item strong { color: var(--verde-escuro); font-weight: 700; }
-.hi-red    { color: var(--vermelho); font-weight: 700; }
-.hi-orange { color: var(--laranja);  font-weight: 700; }
-.hi-green  { color: var(--verde);    font-weight: 700; }
-.hi-azul   { color: var(--azul);     font-weight: 700; }
 
 /* ── COMPARATIVO ── */
 .row-aberto td { opacity: 0.65; }
@@ -451,6 +452,15 @@ const MESES = [
   { mes: "Nov", meta: 112944,   real2026: 86975.00,   occ2026: 19, real2025: 95767.24,   occ2025: 48, status: "aberto", nota: "Feriado Finados 30/10-02/11: 51 diarias disponiveis. Consciencia Negra 20-22/11: 18 diarias disponiveis." },
   { mes: "Dez", meta: 269514,   real2026: 89953.22,   occ2026: 25, real2025: 203783.00,  occ2025: 24, status: "aberto", nota: "Natal 24-27/12: 66 diarias disponiveis (bloco praticamente vazio - prioridade de venda). Reveillon 31/12-03/01: 49 diarias disponiveis." }
 ];
+
+// tom: "positivo" | "neutro" | "alerta" — define a cor de destaque do card
+const LEITURA = [
+  { tom: "neutro",   titulo: "Setembro e o foco imediato", texto: "Mes em fechamento com 68% de ocupacao e R$ 498,5 mil em carteira. O retiro Dunamis foi comercializado 100% e puxou o resultado. Ainda ha espaco nas datas avulsas de transicao: vale capturar grupos menores, corporativo e ecoturismo antes do mes encerrar." },
+  { tom: "alerta",   titulo: "O fim de ano concentra todo o risco restante", texto: "Out/Nov/Dez somam a maior parte do buraco projetado (~R$ 600 mil vs forecast). Nao e falta de demanda: e inventario de feriado ainda nao vendido, com janela encurtando rapido. A recuperacao depende de captacao ativa: pacotes de fim de ano, parcerias corporativas e grupos." },
+  { tom: "alerta",   titulo: "Natal e o encalhe critico", texto: "O bloco de 24-27/12 esta praticamente vazio (66 diarias livres) e parado ha semanas. Sao datas de altissimo valor sem tracao. E a prioridade numero um de venda: se um unico bloco merece forca total agora, e esse." },
+  { tom: "positivo", titulo: "Julho fechou no alvo", texto: "Realizado de R$ 1.457.715,00 contra meta de R$ 1.472.500,00: gap residual de R$ 14.785,00 (1,0%), dentro da margem de execucao. Sinal de que a alta temporada entregou o previsto." },
+  { tom: "positivo", titulo: "A tendencia de fundo e positiva", texto: "O gap projetado do ano caiu de ~R$ 1,26 mi (inicio do acompanhamento) para R$ 787,8 mil, com captacao real semana apos semana. A meta anual segue desafiadora, mas a distancia vem encolhendo de forma consistente." }
+];
 </script>
 
 <!-- =============================================================
@@ -518,7 +528,7 @@ const MESES = [
 
     <div class="section">
       <div class="section-title">Leitura</div>
-      <div class="insight-box" id="insight-box"></div>
+      <div class="leitura-grid" id="leitura-grid"></div>
     </div>
 
   </div>
@@ -840,37 +850,14 @@ function renderObs() {
   `).join('');
 }
 
-// ── Insight ──────────────────────────────────────────────────────
-function renderInsight() {
-  const agoM  = abertos.find(m => m.mes === 'Ago');
-  const julM  = fechados.find(m => m.mes === 'Jul');
-  const agoFc = agoM  ? agoM.meta  + rateio : 0;
-  const agoBuraco = agoM  ? agoM.real2026  - agoFc : 0;
-  const julGap = julM ? julM.real2026 - julM.meta : 0;
-
-  document.getElementById('insight-box').innerHTML = `
-    <div class="insight-item">
-      <strong>Agosto é o alerta principal.</strong> Alta temporada com
-      <span class="hi-azul">${agoM ? agoM.occ2026 : 0}% de ocupação</span>
-      e carteira <span class="hi-red">${brl(Math.abs(agoBuraco))} abaixo do forecast ajustado</span>.
-      A janela de captação se fecha rápido — precisa de ação imediata em canais de venda, upgrades e pacotes.
+// ── Leitura ──────────────────────────────────────────────────────
+function renderLeitura() {
+  document.getElementById('leitura-grid').innerHTML = LEITURA.map(l => `
+    <div class="leitura-card tom-${l.tom}">
+      <div class="leitura-titulo">${l.titulo}</div>
+      <div class="leitura-texto">${l.texto}</div>
     </div>
-    <div class="insight-item">
-      <strong>Julho fechou praticamente no alvo.</strong>
-      Realizado de ${brl(julM ? julM.real2026 : 0)} contra meta de ${brl(julM ? julM.meta : 0)} —
-      gap residual de apenas <span class="hi-green">${brl(Math.abs(julGap))}</span>
-      (${pct(Math.abs(julGap) / (julM ? julM.meta : 1) * 100)}), dentro da margem de execução do mês.
-    </div>
-    <div class="insight-item">
-      <strong>Out/Nov/Dez com ocupação muito baixa não é queda de demanda — é inventário ainda não vendido.</strong>
-      Em agosto a janela de venda desses meses ainda está completamente aberta.
-      O buraco é recuperável via captação ativa: pacotes de fora de temporada, parcerias corporativas e grupos.
-    </div>
-    <div class="insight-item">
-      <strong>Setembro merece atenção secundária:</strong> 51% de ocupação e gap significativo para o forecast ajustado.
-      Temporada de transição — oportunidade de capturar viagens corporativas, grupos menores e clientes de natureza/ecoturismo.
-    </div>
-  `;
+  `).join('');
 }
 
 // ── Comparativo Faturamento 1º Semestre (gráfico) ────────────────
@@ -1017,7 +1004,7 @@ renderChart();
 renderCenarios();
 renderForecast();
 renderObs();
-renderInsight();
+renderLeitura();
 renderSemestreFat();
 renderFat();
 renderOcc();
