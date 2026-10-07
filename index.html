@@ -15,11 +15,6 @@
   --teal:         #215757;
   --offwhite:     #DFDBD0;
   --card:         #FBFAF5;
-  --cinza:        #8A8A82;
-  --vermelho:     #C0473B;
-  --muted:        #7C7A6E;
-  --linha:        rgba(62,74,44,0.10);
-}
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -433,7 +428,7 @@ svg.bar-chart {
 const CONFIG = {
   pousada: "Vila Aty",
   mesReferencia: "Julho/2026",
-  dataAtualizacao: "29/09/2026",
+  dataAtualizacao: "07/10/2026",
   metaAnual: 6375056.60
 };
 
@@ -447,19 +442,19 @@ const MESES = [
   { mes: "Jun", meta: 1034880,  real2026: 971069.72,  occ2026: 73, real2025: 893801.07,  occ2025: 86, status: "fechado" },
   { mes: "Jul", meta: 1472500,  real2026: 1457715.00, occ2026: 93, real2025: 1156758.78, occ2025: 95, status: "fechado" },
   { mes: "Ago", meta: 1295800,  real2026: 1266241.24, occ2026: 88, real2025: 994589.62,  occ2025: 92, status: "fechado" },
-  { mes: "Set", meta: 604236,   real2026: 514633.98,  occ2026: 70, real2025: 562228.79,  occ2025: 90, status: "aberto", nota: "Retiro Dunamis (17-20/09): bloco 100% comercializado." },
-  { mes: "Out", meta: 374945,   real2026: 243001.19,  occ2026: 33, real2025: 325321.72,  occ2025: 52, status: "aberto", nota: "Feriadao Criancas 09-12/10: 21 diarias disponiveis." },
-  { mes: "Nov", meta: 112944,   real2026: 94629.45,   occ2026: 17, real2025: 95767.24,   occ2025: 48, status: "aberto", nota: "Finados 30/10-02/11: 49 diarias disponiveis. Consciencia Negra 20-22/11: 40 diarias disponiveis." },
-  { mes: "Dez", meta: 269514,   real2026: 90424.22,   occ2026: 23, real2025: 203783.00,  occ2025: 24, status: "aberto", nota: "Natal 24-27/12: 66 diarias disponiveis, sem venda ha semanas (prioridade). Reveillon 31/12-03/01: 49 diarias disponiveis." }
+  { mes: "Set", meta: 604236,   real2026: 512549.20,  occ2026: 70, real2025: 562228.79,  occ2025: 90, status: "fechado", nota: "Mes encerrado. Retiro Dunamis comercializado 100%." },
+  { mes: "Out", meta: 374945,   real2026: 259483.63,  occ2026: 36, real2025: 325321.72,  occ2025: 52, status: "aberto", nota: "Feriadao Criancas 09-12/10: 16 diarias disponiveis, dia 10/10 esgotado." },
+  { mes: "Nov", meta: 112944,   real2026: 96105.25,   occ2026: 18, real2025: 95767.24,   occ2025: 48, status: "aberto", nota: "Finados 30/10-02/11: 49 diarias disponiveis. Consciencia Negra 20-22/11: 40 diarias disponiveis." },
+  { mes: "Dez", meta: 269514,   real2026: 111147.15,  occ2026: 26, real2025: 203783.00,  occ2025: 24, status: "aberto", nota: "Natal 24-27/12: 66 diarias disponiveis, sem venda ha semanas (prioridade maxima). Reveillon 31/12-03/01: 44 diarias disponiveis (vendeu 5)." }
 ];
 
 // tom: "positivo" | "neutro" | "alerta" — define a cor de destaque do card
 const LEITURA = [
-  { tom: "neutro",   titulo: "Setembro em reta final", texto: "Mes fechando com 70% de ocupacao e o retiro Dunamis 100% comercializado. Carteira em R$ 514,6 mil, cerca de R$ 90 mil abaixo da meta do mes." },
-  { tom: "alerta",   titulo: "O fim de ano concentra o risco restante", texto: "Out/Nov/Dez somam cerca de R$ 563 mil de buraco em relacao ao forecast necessario. Nao e falta de demanda: e inventario de feriado ainda nao vendido, com a janela encurtando. A recuperacao depende de captacao ativa: pacotes de fim de ano, grupos e corporativo." },
-  { tom: "alerta",   titulo: "Natal segue como encalhe critico", texto: "O bloco de 24-27/12 continua com 66 diarias livres e sem venda ha semanas. Sao as datas de maior valor ainda sem tracao. E a prioridade numero um de venda." },
-  { tom: "positivo", titulo: "Outubro seguindo firme", texto: "Outubro ganhou R$ 19 mil na semana (33% de ocupacao) e ja soma R$ 243 mil em carteira, puxado por datas avulsas fora dos feriados." },
-  { tom: "positivo", titulo: "Projecao do ano na melhor marca", texto: "O gap projetado caiu para -R$ 730,3 mil, o menor desde o inicio do acompanhamento. A tendencia de captacao segue consistente semana a semana." }
+  { tom: "neutro",   titulo: "Setembro encerrado abaixo da meta", texto: "Fechou em R$ 512,5 mil contra meta de R$ 604,2 mil (gap de R$ 91,7 mil). Com isso o gap acumulado do ano sobe para -R$ 403 mil. O retiro Dunamis foi comercializado 100%." },
+  { tom: "alerta",   titulo: "Reta final: so restam Out, Nov e Dez", texto: "Com 3 meses em aberto, o esforco de recuperacao por mes quase dobrou (R$ 134 mil cada). O forecast necessario ficou matematicamente fora de alcance para meses de baixa temporada: a leitura realista do ano agora e a projecao, nao o forecast." },
+  { tom: "alerta",   titulo: "Natal e o encalhe critico", texto: "O bloco de 24-27/12 segue com 66 diarias livres e sem venda ha semanas, mesmo com o Reveillon ao lado comecando a vender. Sao as datas de maior valor ainda sem tracao: prioridade maxima de venda." },
+  { tom: "positivo", titulo: "Dezembro e Outubro reagindo", texto: "Dezembro ganhou R$ 20,7 mil na semana (Reveillon vendeu 5 diarias) e Outubro segue firme com o dia 10/10 esgotado. O trimestre final captou R$ 38,7 mil na semana." },
+  { tom: "positivo", titulo: "Projecao do ano na melhor marca", texto: "Mesmo com Setembro fechando abaixo, a captacao de Out/Nov/Dez levou o gap projetado para -R$ 693,7 mil, o menor desde o inicio do acompanhamento." }
 ];
 </script>
 
