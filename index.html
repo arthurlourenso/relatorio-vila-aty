@@ -428,7 +428,7 @@ svg.bar-chart {
 const CONFIG = {
   pousada: "Vila Aty",
   mesReferencia: "Julho/2026",
-  dataAtualizacao: "28/10/2026",
+  dataAtualizacao: "13/11/2026",
   metaAnual: 6375056.60
 };
 
@@ -443,17 +443,18 @@ const MESES = [
   { mes: "Jul", meta: 1472500,  real2026: 1457715.00, occ2026: 93, real2025: 1156758.78, occ2025: 95, status: "fechado" },
   { mes: "Ago", meta: 1295800,  real2026: 1266241.24, occ2026: 88, real2025: 994589.62,  occ2025: 92, status: "fechado" },
   { mes: "Set", meta: 604236,   real2026: 512549.20,  occ2026: 70, real2025: 562228.79,  occ2025: 90, status: "fechado", nota: "Mes encerrado. Retiro Dunamis comercializado 100%." },
-  { mes: "Out", meta: 374945,   real2026: 309520.72,  occ2026: 43, real2025: 325321.72,  occ2025: 52, status: "aberto", nota: "Feriadao Finados: virada 31/10 esgotada, apenas 4 quartos livres em 01/11. Outubro fechou forte." },
-  { mes: "Nov", meta: 112944,   real2026: 109488.18,  occ2026: 21, real2025: 95767.24,   occ2025: 48, status: "aberto", nota: "Consciencia Negra 20-22/11: 36 diarias disponiveis." },
-  { mes: "Dez", meta: 269514,   real2026: 106084.64,  occ2026: 26, real2025: 203783.00,  occ2025: 24, status: "aberto", nota: "Natal 24-27/12: 66 diarias disponiveis, sem venda ha semanas (prioridade maxima). Reveillon 31/12-03/01: 35 diarias disponiveis, apenas 7 quartos para 31/12." }
+  { mes: "Out", meta: 374945,   real2026: 316841.48,  occ2026: 46, real2025: 325321.72,  occ2025: 52, status: "fechado", nota: "Mes encerrado em R$ 316,8 mil (46% de ocupacao)." },
+  { mes: "Nov", meta: 112944,   real2026: 121722.28,  occ2026: 27, real2025: 95767.24,   occ2025: 48, status: "aberto", nota: "Consciencia Negra 20-22/11: 31 diarias disponiveis. Ocupacao reagindo bem." },
+  { mes: "Dez", meta: 269514,   real2026: 113218.85,  occ2026: 15, real2025: 203783.00,  occ2025: 24, status: "aberto", nota: "Natal 24-27/12: 69 diarias livres, apenas 1 quarto ocupado no dia 25/12 - situacao critica, faltando ~6 semanas. Reveillon 31/12-03/01: 28 diarias disponiveis." }
 ];
 
 // tom: "positivo" | "neutro" | "alerta" — define a cor de destaque do card
 const LEITURA = [
-  { tom: "positivo", titulo: "Outubro converteu forte na reta final", texto: "Outubro ganhou R$ 50 mil na ultima semana e chegou a 43% de ocupacao, com o feriado de Finados praticamente esgotando a virada do mes. Ja soma R$ 309,5 mil, o melhor desempenho do trimestre." },
-  { tom: "alerta",   titulo: "Natal e o encalhe critico", texto: "O bloco de 24-27/12 segue com 66 diarias livres e sem venda ha semanas, mesmo com o Reveillon ao lado vendendo bem (apenas 7 quartos para 31/12). Sao as datas de maior valor ainda sem tracao: prioridade maxima de venda, faltando cerca de 8 semanas." },
-  { tom: "alerta",   titulo: "Reta final: forecast fora de alcance, olhar a projecao", texto: "Com Out, Nov e Dez em aberto, o forecast necessario por mes (R$ 134 mil de catch-up cada) esta fora de alcance para a baixa temporada. A leitura realista do ano e a projecao, nao o forecast." },
-  { tom: "positivo", titulo: "Projecao do ano na melhor marca", texto: "A captacao de Outubro levou o gap projetado para -R$ 635,3 mil, o menor desde o inicio do acompanhamento. A tendencia segue consistente." }
+  { tom: "alerta",   titulo: "Natal em situacao critica", texto: "O bloco de 24-27/12 esta com 69 diarias livres e apenas 1 quarto ocupado no dia 25/12, faltando cerca de 6 semanas. E o maior risco concreto do fechamento do ano e a prioridade absoluta de venda: pacote de fim de ano, parcerias ou acao relampago." },
+  { tom: "neutro",   titulo: "Outubro encerrado abaixo da meta", texto: "Fechou em R$ 316,8 mil contra meta de R$ 374,9 mil (gap de R$ 58,1 mil). Com isso o gap acumulado do ano chega a -R$ 461,1 mil." },
+  { tom: "positivo", titulo: "Novembro reagindo", texto: "Novembro ganhou R$ 12,2 mil na semana e chegou a 27% de ocupacao, acima do previsto para o mes. Ja soma R$ 121,7 mil em carteira." },
+  { tom: "alerta",   titulo: "Reta final: so restam Nov e Dez", texto: "Com dois meses em aberto, o forecast necessario (R$ 230 mil de catch-up por mes) esta fora de alcance para a baixa temporada. A leitura realista do ano e a projecao de -R$ 608,6 mil, nao o forecast." },
+  { tom: "positivo", titulo: "Projecao do ano segue melhorando", texto: "Mesmo com Outubro fechando abaixo, a captacao de Nov e Dez levou o gap projetado para -R$ 608,6 mil, mantendo a trajetoria de melhora semana a semana." }
 ];
 </script>
 
